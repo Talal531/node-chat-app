@@ -18,14 +18,18 @@ io.on('connection', (socket) => {
     console.log('New User Connected');
 
     // emit or creating an event rather than listen
-    socket.emit('newMessage', {
-        from: 'John',
-        text: 'Anything else',
-        createAt: new Date().toDateString()
-    });
+    // socket.emit - emit an event to single connection
+
 
     socket.on('createMessage', (message) => {
         console.log('Create Message', message);
+        // io.emit - emit an event to every single connection
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createAt: new Date().getTime()
+
+        })
     });
 
     // every time browser closes this message shows up
