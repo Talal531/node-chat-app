@@ -27,11 +27,11 @@ io.on('connection', (socket) => {
     socket.emit('newMessage', generateMessage('Admin', 'Welcome  to the Chat'));
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'User Joined'));
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log('Create Message', message);
         // io.emit - emit an event to every single connection
         io.emit('newMessage', generateMessage(message.from, message.text));
-
+        callback('This is from the server');
         // socket.brodcast fires event for everybody except myself
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
