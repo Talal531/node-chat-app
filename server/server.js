@@ -20,6 +20,18 @@ io.on('connection', (socket) => {
     // emit or creating an event rather than listen
     // socket.emit - emit an event to single connection
 
+    // emit 2 events
+    // when a user connects
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'Welcome to the chat',
+        createAt: new Date().getTime()
+    });
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New User Joined',
+        createAt: new Date().getTime()
+    })
 
     socket.on('createMessage', (message) => {
         console.log('Create Message', message);
@@ -28,8 +40,14 @@ io.on('connection', (socket) => {
             from: message.from,
             text: message.text,
             createAt: new Date().getTime()
+        });
 
-        })
+        // socket.brodcast fires event for everybody except myself
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createAt: new Date().getTime()
+        // })
     });
 
     // every time browser closes this message shows up
